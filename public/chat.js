@@ -1,8 +1,20 @@
+// Gestion du bouton de déconnexion
+const logoutBtn = document.getElementById('logoutBtn');
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', async function () {
+        await fetch('/logout');
+        window.location.reload();
+    });
+}
 document.addEventListener('DOMContentLoaded', function () {
+
+
     const loginDiv = document.getElementById('login');
     const chatDiv = document.getElementById('chat');
+    const loginForm = document.getElementById('loginForm');
     const pseudoInput = document.getElementById('pseudo');
-    const enterChatBtn = document.getElementById('enterChat');
+    const passwordInput = document.getElementById('password');
+    const loginError = document.getElementById('loginError');
     const form = document.getElementById('form');
     const input = document.getElementById('m');
     const messages = document.getElementById('messages');
@@ -10,19 +22,29 @@ document.addEventListener('DOMContentLoaded', function () {
     const socket = io();
     let initialized = false;
 
-    enterChatBtn.addEventListener('click', () => {
-        const val = pseudoInput.value.trim();
-        if (val) {
-            pseudo = val;
-            loginDiv.style.display = 'none';
-            chatDiv.style.display = 'block';
-            input.focus();
-        }
-    });
-
-    pseudoInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') enterChatBtn.click();
-    });
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const pseudoVal = pseudoInput.value.trim();
+            const passwordVal = passwordInput.value;
+            if (!pseudoVal || !passwordVal) return;
+            const res = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pseudo: pseudoVal, password: passwordVal })
+            });
+            const data = await res.json();
+            if (data.success) {
+                pseudo = pseudoVal;
+                loginDiv.style.display = 'none';
+                chatDiv.style.display = 'block';
+                input.focus();
+            } else {
+                loginError.textContent = data.message || 'Erreur de connexion';
+                loginError.style.display = 'block';
+            }
+        });
+    }
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();

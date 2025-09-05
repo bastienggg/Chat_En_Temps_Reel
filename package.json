@@ -23,8 +23,14 @@
     "@prisma/client": "^6.15.0",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "express-session": "^1.18.2",
     "prisma": "^6.15.0",
     "socket.io": "^4.8.1",
     "twig": "^1.17.1"
+  },
+  "devDependencies": {
+    "jest-mock": "^30.0.5",
+    "socket.io-client": "^4.8.1",
+    "supertest": "^7.1.4"
   }
 }
