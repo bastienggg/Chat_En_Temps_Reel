@@ -13,7 +13,13 @@
     </div>
     <div id="chat" style="display:none;">
         <h2>Chat en Temps Réel</h2>
-        <ul id="messages"></ul>
+        <ul id="messages">
+            {% if messages %}
+                {% for msg in messages %}
+                    <li>{{ msg.pseudo }}: {{ msg.content }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
         <form id="form" autocomplete="off">
             <input id="m" autocomplete="off" placeholder="Votre message" />
             <button>Envoyer</button>

@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const messages = document.getElementById('messages');
     let pseudo = '';
     const socket = io();
+    let initialized = false;
 
     enterChatBtn.addEventListener('click', () => {
         const val = pseudoInput.value.trim();
@@ -29,6 +30,19 @@ document.addEventListener('DOMContentLoaded', function () {
             socket.emit('chat message', { pseudo, message: input.value });
             input.value = '';
         }
+    });
+
+    // Affiche l'historique reçu du serveur (évite doublons)
+    socket.on('chat history', function (history) {
+        if (initialized) return;
+        messages.innerHTML = '';
+        history.forEach(function (data) {
+            const item = document.createElement('li');
+            item.textContent = `${data.pseudo}: ${data.content}`;
+            messages.appendChild(item);
+        });
+        messages.scrollTop = messages.scrollHeight;
+        initialized = true;
     });
 
     socket.on('chat message', function (data) {
