@@ -17,18 +17,22 @@ const app = express();
 app.use(express.json());
 app.post('/api/message', async (req, res) => {
     const { pseudo, message } = req.body;
+    console.log('[ROUTE] Reçu:', { pseudo, message });
     const saved = await mockPrisma.message.create({
         data: { pseudo, content: message }
     });
+    console.log('[ROUTE] Message sauvegardé:', saved);
     res.status(201).json(saved);
 });
 
 describe('POST /api/message', () => {
     it('crée un message et retourne le bon code HTTP', async () => {
         mockCreate.mockResolvedValue({ id: 1, pseudo: 'toto', content: 'hello', createdAt: new Date() });
+        console.log('[TEST] Envoi de la requête POST /api/message');
         const res = await request(app)
             .post('/api/message')
             .send({ pseudo: 'toto', message: 'hello' });
+        console.log('[TEST] Réponse reçue:', res.body);
         expect(res.statusCode).toBe(201);
         expect(res.body.pseudo).toBe('toto');
         expect(res.body.content).toBe('hello');
