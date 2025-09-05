@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat en Temps Réel</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div id="login" style="display: flex; flex-direction: column; align-items: center; margin-top: 50px;">
+        <h2>Entrez votre pseudo</h2>
+        <input type="text" id="pseudo" placeholder="Votre pseudo" autofocus>
+        <button id="enterChat">Entrer dans le chat</button>
+    </div>
+    <div id="chat" style="display:none;">
+        <h2>Chat en Temps Réel</h2>
+        <ul id="messages"></ul>
+        <form id="form" autocomplete="off">
+            <input id="m" autocomplete="off" placeholder="Votre message" />
+            <button>Envoyer</button>
+        </form>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/chat.js"></script>
+</body>
+</html>

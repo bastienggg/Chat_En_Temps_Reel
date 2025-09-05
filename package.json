@@ -1,0 +1,26 @@
+{
+  "name": "chat_en_temps_reel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bastienggg/Chat_En_Temps_Reel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bastienggg/Chat_En_Temps_Reel/issues"
+  },
+  "homepage": "https://github.com/bastienggg/Chat_En_Temps_Reel#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1",
+    "twig": "^1.17.1"
+  }
+}
