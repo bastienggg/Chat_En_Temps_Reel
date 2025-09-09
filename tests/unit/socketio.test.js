@@ -1,3 +1,4 @@
+
 // Test d'intégration Socket.IO : connexion, envoi/réception, historique
 const { Server } = require('socket.io');
 const { createServer } = require('http');
