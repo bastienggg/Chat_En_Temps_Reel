@@ -39,4 +39,6 @@ jobs:
       - run: npx prisma migrate deploy
       - run: npx jest
       - run: npx playwright install --with-deps
-      - run: npx start-server-and-test "npm start" http://localhost:3000 "npm run test:e2e"
+      - run: npm start &
+      - run: npx wait-on http://localhost:3000
+      - run: npm run test:e2e
