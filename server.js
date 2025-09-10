@@ -10,6 +10,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { PrismaClient } from './generated/prisma/index.js';
 import twig from 'twig';
+import bcrypt from 'bcrypt';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -62,14 +63,14 @@ app.post('/register', async (req, res) => {
     if (existing) {
         return res.json({ success: false, message: 'Pseudo ou email déjà utilisé' });
     }
-    // Create user
+    // Hash password
     try {
+        const hashedPassword = await bcrypt.hash(password, 10);
         const user = await prisma.user.create({
-            data: { pseudo, password, email }
+            data: { pseudo, password: hashedPassword, email }
         });
         req.session.user = { id: user.id, pseudo: user.pseudo };
         req.session.save(() => {
-            console.log('Session after register:', req.session);
             // If the request is AJAX (fetch), send JSON, else redirect
             if (req.headers['content-type'] && req.headers['content-type'].includes('application/json')) {
                 res.json({ success: true, message: 'Inscription réussie', redirect: '/' });
@@ -115,7 +116,11 @@ app.post('/login', async (req, res) => {
         return res.render('login', { error: 'Champs manquants' });
     }
     const user = await prisma.user.findUnique({ where: { pseudo } });
-    if (!user || user.password !== password) {
+    if (!user) {
+        return res.render('login', { error: 'Identifiants invalides' });
+    }
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
         return res.render('login', { error: 'Identifiants invalides' });
     }
     req.session.user = { id: user.id, pseudo: user.pseudo };
