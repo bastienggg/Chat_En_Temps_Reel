@@ -96,7 +96,77 @@ app.post('/register', async (req, res) => {
             from: 'no-reply@chatentempreel.com',
             to: email,
             subject: 'Validez votre compte',
-            html: `<p>Bonjour ${pseudo},</p><p>Merci de vous être inscrit. Cliquez sur le lien suivant pour valider votre compte :</p><p><a href="${validationUrl}">${validationUrl}</a></p>`
+            html: `<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation de compte</title>
+    <style>
+        body {
+            background: #120D08;
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 480px;
+            margin: 40px auto;
+            background: #18120c;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px #0008;
+            padding: 32px 24px;
+            border: 1px solid #E3882D44;
+        }
+        h1 {
+            color: #E3882D;
+            font-size: 1.7em;
+            margin-bottom: 0.5em;
+        }
+        p {
+            color: #fff;
+            font-size: 1.1em;
+            margin-bottom: 1.2em;
+        }
+        a.button {
+            display: inline-block;
+            background: #E3882D;
+            color: #120D08;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 1.1em;
+            margin-top: 12px;
+            transition: background 0.2s;
+        }
+        a.button:hover {
+            background: #ff9c3a;
+        }
+        .footer {
+            margin-top: 2em;
+            color: #E3882D;
+            font-size: 0.95em;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenue, ${pseudo} !</h1>
+        <p>Merci de vous être inscrit sur <b>Chat En Temps Réel</b>.<br>
+        Pour activer votre compte, cliquez sur le bouton ci-dessous :</p>
+        <p style="text-align:center;">
+            <a href="${validationUrl}" class="button">Valider mon compte</a>
+        </p>
+        <p>Ou copiez ce lien dans votre navigateur :<br>
+            <a href="${validationUrl}" style="color:#E3882D;">${validationUrl}</a>
+        </p>
+        <div class="footer">&copy; 2025 Chat En Temps Réel</div>
+    </div>
+</body>
+</html>`
         });
         req.session.user = { id: user.id, pseudo: user.pseudo };
         req.session.save(() => {
