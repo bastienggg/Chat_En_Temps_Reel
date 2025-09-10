@@ -49,11 +49,11 @@ app.get('/register', (req, res) => {
 
 // Nodemailer config (Mailtrap)
 const transporter = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
-    port: 2525,
+    host: process.env.MAILTRAP_HOST || "sandbox.smtp.mailtrap.io",
+    port: process.env.MAILTRAP_PORT ? parseInt(process.env.MAILTRAP_PORT) : 2525,
     auth: {
-        user: "4ace217dbd278f",
-        pass: "2f50d829480fae"
+        user: process.env.MAILTRAP_USER,
+        pass: process.env.MAILTRAP_PASS
     }
 });
 
