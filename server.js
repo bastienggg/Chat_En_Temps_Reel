@@ -125,37 +125,41 @@ app.post('/login', async (req, res) => {
 });
 
 // Socket.IO logic
-io.on('connection', async (socket) => {
-    // Envoie les derniers messages à la connexion (sécurité côté client aussi)
+
+// --- Gestion des sockets ---
+function handleSocketConnection(socket) {
+    // Envoie l'historique à la connexion
+    sendChatHistory(socket);
+    socket.on('chat message', handleChatMessage);
+}
+
+async function sendChatHistory(socket) {
     const messages = await prisma.message.findMany({
         orderBy: { createdAt: 'asc' },
         take: 20
     });
     socket.emit('chat history', messages);
+}
 
-    socket.on('chat message', async (data) => {
-        console.log('SocketIO: chat message received', data);
-        if (!data.pseudo || !data.content && !data.message) {
-            console.log('SocketIO: missing pseudo or content');
-            return;
+async function handleChatMessage(data) {
+    if (!data.pseudo || (!data.content && !data.message)) {
+        return;
+    }
+    const saved = await prisma.message.create({
+        data: {
+            pseudo: data.pseudo,
+            content: data.content || data.message
         }
-        // Stocke le message en base
-        const saved = await prisma.message.create({
-            data: {
-                pseudo: data.pseudo,
-                content: data.content || data.message
-            }
-        });
-        console.log('SocketIO: message saved', saved);
-        // Émet à tous les clients avec les deux champs pour compatibilité
-        io.emit('chat message', {
-            pseudo: saved.pseudo,
-            content: saved.content,
-            message: saved.content,
-            createdAt: saved.createdAt
-        });
     });
-});
+    io.emit('chat message', {
+        pseudo: saved.pseudo,
+        content: saved.content,
+        message: saved.content,
+        createdAt: saved.createdAt
+    });
+}
+
+io.on('connection', handleSocketConnection);
 
 // Déconnexion
 app.get('/logout', (req, res) => {
