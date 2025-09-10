@@ -19,6 +19,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const input = document.getElementById('m');
     const messages = document.getElementById('messages');
     let pseudo = '';
+    // Toujours récupérer le pseudo depuis le DOM sur la page /chat
+    if (window.location.pathname === '/chat') {
+        const userPseudoDiv = document.querySelector('#chat b');
+        if (userPseudoDiv) {
+            pseudo = userPseudoDiv.textContent.trim();
+        }
+    }
     const socket = io();
     let initialized = false;
 
@@ -49,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', function (e) {
         e.preventDefault();
         if (input.value && pseudo) {
-            socket.emit('chat message', { pseudo, message: input.value });
+            socket.emit('chat message', { pseudo, content: input.value });
             input.value = '';
         }
     });
@@ -69,7 +76,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     socket.on('chat message', function (data) {
         const item = document.createElement('li');
-        item.textContent = `${data.pseudo}: ${data.message}`;
+        // Utilise .content si présent, sinon .message (compatibilité)
+        item.textContent = `${data.pseudo}: ${data.content || data.message}`;
         messages.appendChild(item);
         messages.scrollTop = messages.scrollHeight;
     });

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription - Chat en Temps Réel</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 50px;">
+        <h2>Inscription</h2>
+        <form id="registerForm" method="POST" action="/register">
+            <div>
+                <label for="pseudo">Pseudo :</label>
+                <input type="text" id="pseudo" name="pseudo" required>
+            </div>
+            <div>
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <label for="email">Email :</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <button type="submit">S'inscrire</button>
+        </form>
+        <div id="registerMessage"></div>
+        <a href="/">Déjà inscrit ? Se connecter</a>
+    </div>
+    <script>
+        document.getElementById('registerForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                pseudo: form.pseudo.value,
+                password: form.password.value,
+                email: form.email.value
+            };
+            const res = await fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const json = await res.json();
+            document.getElementById('registerMessage').textContent = json.message;
+            if(json.success && json.redirect) {
+                window.location = json.redirect;
+            }
+        };
+    </script>
+</body>
+</html>
