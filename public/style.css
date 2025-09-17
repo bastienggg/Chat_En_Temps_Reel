@@ -1,55 +1,158 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #120d08;
+  color: #fff;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
 }
+
 #chat,
-#login {
-  max-width: 400px;
+#login,
+form,
+.container,
+#registerForm,
+#not-validated,
+#validated {
+  max-width: 420px;
   margin: 40px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #18120c;
+  padding: 28px 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(227, 136, 45, 0.15);
+  color: #fff;
 }
+
+h2,
+h1 {
+  color: #e3882d;
+  margin-bottom: 18px;
+}
+
+a,
+a:visited {
+  color: #e3882d;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
 #messages {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  height: 200px;
+  height: 220px;
   overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  background: #fafafa;
+  border: 1px solid #e3882d;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  background: #18120c;
+  color: #fff;
 }
 #messages li {
-  padding: 5px 10px;
-  border-bottom: 1px solid #eee;
+  padding: 7px 12px;
+  border-bottom: 1px solid #2a2117;
 }
 #messages li:last-child {
   border-bottom: none;
 }
+
 #form {
   display: flex;
+  gap: 0;
 }
 #form input {
   flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px 0 0 4px;
+  padding: 10px;
+  border: 1px solid #e3882d;
+  border-radius: 6px 0 0 6px;
   outline: none;
+  background: #120d08;
+  color: #fff;
+  font-size: 1em;
+}
+#form input::placeholder {
+  color: #bfa37a;
 }
 #form button {
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
-  background: #007bff;
+  background: #e3882d;
   color: #fff;
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 6px 6px 0;
   cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
   transition: background 0.2s;
 }
 #form button:hover {
-  background: #0056b3;
+  background: #ff9d3c;
+  color: #120d08;
+}
+
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
+  font-size: 1em;
+}
+
+label {
+  color: #fff;
+  margin-bottom: 6px;
+  display: block;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 14px;
+  border: 1px solid #e3882d;
+  border-radius: 6px;
+  background: #18120c;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+button,
+.button {
+  background: #e3882d;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
+  margin-top: 10px;
+  transition: background 0.2s, color 0.2s;
+}
+button:hover,
+.button:hover {
+  background: #fff;
+  color: #e3882d;
+}
+
+.error,
+#loginError,
+#registerMessage {
+  color: #ff6b6b;
+  margin-top: 10px;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #18120c;
+}
+::-webkit-scrollbar-thumb {
+  background: #e3882d;
+  border-radius: 4px;
 }

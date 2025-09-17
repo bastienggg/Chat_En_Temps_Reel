@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion - Chat en Temps Réel</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+        <div class="container">
+            <h1>Connexion</h1>
+            <form id="loginForm" autocomplete="off" method="POST" action="/login">
+                <label for="pseudo">Pseudo</label>
+                <input type="text" id="pseudo" name="pseudo" placeholder="Votre pseudo" required autofocus>
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                <button type="submit" class="button">Se connecter</button>
+            </form>
+            {% if error %}
+                <div id="loginError" class="error">{{ error }}</div>
+            {% else %}
+                <div id="loginError" class="error" style="display:none;"></div>
+            {% endif %}
+            <div style="margin-top: 18px; text-align: center;">
+                <a href="/register">Créer un compte</a>
+            </div>
+            <div class="footer" style="margin-top:2em; color:#E3882D; text-align:center;">&copy; 2025 Chat En Temps Réel</div>
+        </div>
+    <script src="/chat.js"></script>
+</body>
+</html>

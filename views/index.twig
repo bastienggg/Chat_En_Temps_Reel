@@ -6,30 +6,27 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div id="login" style="display: flex; flex-direction: column; align-items: center; margin-top: 50px;">
-        <h2>Connexion</h2>
-        <form id="loginForm" autocomplete="off" method="POST">
-            <input type="text" id="pseudo" name="pseudo" placeholder="Votre pseudo" required autofocus>
-            <input type="password" id="password" name="password" placeholder="Mot de passe" required>
-            <button type="submit">Se connecter</button>
-        </form>
-        <div id="loginError" style="color:red; display:none;"></div>
-    </div>
-    <div id="chat" style="display:none;">
-        <h2>Chat en Temps Réel</h2>
-        <button id="logoutBtn" style="float:right;">Déconnexion</button>
-        <ul id="messages">
-            {% if messages %}
-                {% for msg in messages %}
-                    <li>{{ msg.pseudo }}: {{ msg.content }}</li>
-                {% endfor %}
-            {% endif %}
-        </ul>
-        <form id="form" autocomplete="off">
-            <input id="m" autocomplete="off" placeholder="Votre message" />
-            <button>Envoyer</button>
-        </form>
-    </div>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+                <h1 style="margin: 0;">Chat en Temps Réel</h1>
+                <div style="font-size: 1em; color: #E3882D; font-weight: bold;">Connecté en tant que : <b>{% if user %}{{ user.pseudo }}{% endif %}</b></div>
+                <form method="POST" action="/logout" style="margin-left: 2em;">
+                    <button id="logoutBtn" class="button" type="submit">Déconnexion</button>
+                </form>
+            </div>
+            <ul id="messages">
+                {% if messages %}
+                    {% for msg in messages %}
+                        <li><b style="color:#E3882D">{{ msg.pseudo }}</b> : {{ msg.content }}</li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+            <form id="form" autocomplete="off">
+                <input id="m" autocomplete="off" placeholder="Votre message" />
+                <button>Envoyer</button>
+            </form>
+            <div class="footer" style="margin-top:2em; color:#E3882D; text-align:center;">&copy; 2025 Chat En Temps Réel</div>
+        </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/chat.js"></script>
 </body>

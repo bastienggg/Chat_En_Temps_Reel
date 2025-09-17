@@ -27,4 +27,5 @@ datasource db {
     password String
     email    String  @unique
     isActive Boolean @default(true)
+    validationToken String?
   }
