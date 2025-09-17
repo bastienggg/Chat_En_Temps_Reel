@@ -5,7 +5,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo Error: no test specified & exit 1",
     "test:e2e": "npx playwright test",
     "start": "node server.js",
     "build": "prisma generate"
@@ -23,9 +23,11 @@
   "homepage": "https://github.com/bastienggg/Chat_En_Temps_Reel#readme",
   "dependencies": {
     "@prisma/client": "^6.15.0",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
+    "nodemailer": "^7.0.6",
     "prisma": "^6.15.0",
     "socket.io": "^4.8.1",
     "twig": "^1.17.1"

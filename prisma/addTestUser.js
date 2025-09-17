@@ -1,16 +1,38 @@
-const { PrismaClient } = require('../generated/prisma');
+import { PrismaClient } from '../generated/prisma/index.js';
+import bcrypt from 'bcrypt';
+
 const prisma = new PrismaClient();
 
 async function main() {
-    const user = await prisma.user.create({
-        data: {
-            pseudo: 'testuser',
-            password: 'password123', // Mot de passe en clair pour le test
-            email: 'testuser@example.com',
-            isActive: true
+    const hashedPassword = await bcrypt.hash('motdepasse', 10);
+
+    // Create test users for E2E tests
+    const testUsers = [
+        { pseudo: 'TestUser', email: 'testuser@example.com' },
+        { pseudo: 'TestUser2', email: 'testuser2@example.com' },
+        { pseudo: 'TestUser3', email: 'testuser3@example.com' }
+    ];
+
+    for (const userData of testUsers) {
+        try {
+            const user = await prisma.user.upsert({
+                where: { pseudo: userData.pseudo },
+                update: {
+                    password: hashedPassword,
+                    isActive: true
+                },
+                create: {
+                    pseudo: userData.pseudo,
+                    password: hashedPassword,
+                    email: userData.email,
+                    isActive: true
+                }
+            });
+            console.log('Utilisateur créé/mis à jour :', user.pseudo);
+        } catch (error) {
+            console.error(`Erreur pour ${userData.pseudo}:`, error.message);
         }
-    });
-    console.log('Utilisateur ajouté :', user);
+    }
 }
 
 main()
