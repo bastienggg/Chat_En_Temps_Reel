@@ -5,7 +5,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo Error: no test specified & exit 1",
     "test:e2e": "npx playwright test",
     "start": "node server.js",
     "build": "prisma generate"
